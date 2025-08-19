@@ -1,63 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using Witcher3_Multiplayer.ClientHost;
+using System.Threading;
+using System.Threading.Tasks;
+using HuaweiUnlocker.UI;
 
-namespace Witcher3_Multiplayer
+namespace HuaweiUnlocker
 {
-    public static class langproc
+    public static class LangProc
     {
-        public static TextBox LOGGERB;
-        public static bool IsHost = false,
-            Dedicated = false,
-            IsConnected = false,
-            TESTMYCLIENT = false,
-            debug = true;
-        public static double VersionCur = 1.0;
-        public static int SendDataDelay = 16;
-        public static Main MForm;
-        public static SimpleOverlayFORWINDOWEDMODE OverlForm;
-        public static string MonstersPath = "characters\\npc_entities\\monsters\\";//+MONSTERNAME
-        public static Dictionary<int, PlayerData> PlayerDataClient = new Dictionary<int, PlayerData>();
-        public static Dictionary<int, PlayerData> PlayerDataServerDATAS = new Dictionary<int, PlayerData>();
-        public static Dictionary<IPEndPoint, int> PlayerDataServer = new Dictionary<IPEndPoint, int>();
-        public static void LOG(string s)
+        public static TextBox LOGGBOX;
+        public static ProgressBar PRG;
+        public static TabControl Tab;
+        public static StreamWriter se;
+        public static bool debug = false;
+        public static CancellationToken token;
+        public static CancellationTokenSource ct;
+        public static Task CurTask;
+        public const string newline = "\n";
+
+        public static bool LOG(int level, string message, string extra = "")
         {
-            Action t = () => {
-                LOGGERB.Text += ("[INFO] " + s + Environment.NewLine);
-                LOGGERB.SelectionStart = LOGGERB.Text.Length;
-                LOGGERB.ScrollToCaret(); 
+            string text = Language.isExist(message.ToLower()) ? Language.Get(message) : message;
+            if (!string.IsNullOrEmpty(extra))
+                text += extra;
+
+            try
+            {
+                se?.WriteLine(text);
+                se?.Flush();
+            }
+            catch { }
+
+            if (LOGGBOX != null)
+            {
+                Action act = () =>
+                {
+                    LOGGBOX.AppendText(text + Environment.NewLine);
+                    LOGGBOX.SelectionStart = LOGGBOX.Text.Length;
+                    LOGGBOX.ScrollToCaret();
+                };
+                if (LOGGBOX.InvokeRequired)
+                    LOGGBOX.Invoke(act);
+                else
+                    act();
+            }
+
+            return true;
+        }
+
+        public static void Progress(int value, int max = 100)
+        {
+            if (PRG == null)
+                return;
+            Action act = () =>
+            {
+                PRG.Maximum = max;
+                PRG.Value = Math.Min(value, max);
             };
-            if (LOGGERB.InvokeRequired)
-                LOGGERB.Invoke(t);
+            if (PRG.InvokeRequired)
+                PRG.Invoke(act);
             else
-                t();
-        }
-        public static void ELOG(string s)
-        {
-            Action t = () => { LOGGERB.Text += "[ERROR] " + s + Environment.NewLine; };
-            if (LOGGERB.InvokeRequired)
-                LOGGERB.Invoke(t);
-            else
-                t();
-        }
-        public static byte[] ToByteArray(this object structure)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, structure);
-            return ms.ToArray();
-        }
-        public static T ToStructure<T>(this byte[] arrBytes) where T : struct
-        {
-            MemoryStream memStream = new MemoryStream(arrBytes);
-            BinaryFormatter binForm = new BinaryFormatter();
-            memStream.Seek(0, SeekOrigin.Begin);
-            T obj = (T)binForm.Deserialize(memStream);
-            return obj;
+                act();
         }
     }
 }

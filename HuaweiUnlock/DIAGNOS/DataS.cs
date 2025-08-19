@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Linq;
+using System.Text;
 
 namespace HuaweiUnlocker.DIAGNOS
 {
@@ -107,6 +109,31 @@ namespace HuaweiUnlocker.DIAGNOS
                 case "0x008110e1": return "MSM8210";
                 default: return "Unknown";
             }
+        }
+
+        public struct CMD_PKT
+        {
+            private readonly byte[] _data;
+
+            public CMD_PKT(int length, params object[] parts)
+            {
+                var sb = new StringBuilder();
+                foreach (var part in parts)
+                {
+                    if (part is string s)
+                        sb.Append(s);
+                    else if (part is byte[] bytes)
+                        sb.Append(BitConverter.ToString(bytes).Replace("-", string.Empty));
+                }
+                var hex = sb.ToString();
+                if (hex.Length % 2 != 0)
+                    hex = "0" + hex;
+                _data = Enumerable.Range(0, hex.Length / 2)
+                    .Select(i => Convert.ToByte(hex.Substring(i * 2, 2), 16))
+                    .ToArray();
+            }
+
+            public byte[] GetBytes() => _data ?? Array.Empty<byte>();
         }
     }
 }
