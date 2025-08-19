@@ -1,0 +1,5 @@
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\x86\Debug\HuaweiUnlock.csproj.AssemblyReference.cache
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\x86\Debug\HuaweiUnlocker.Window.resources
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\x86\Debug\HuaweiUnlocker.Properties.Resources.resources
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\x86\Debug\HuaweiUnlock.csproj.GenerateResource.cache
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\x86\Debug\HuaweiUnlock.csproj.CoreCompileInputs.cache

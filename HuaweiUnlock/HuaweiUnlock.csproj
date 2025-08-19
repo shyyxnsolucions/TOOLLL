@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <RootNamespace>HuaweiUnlock</RootNamespace>
+    <AssemblyName>HuaweiUnlock</AssemblyName>
+    <StartupObject>HuaweiUnlocker.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Pacotes NuGet -->
+    <PackageReference Include="LibUsbDotNet" Version="2.2.29" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="DotNetZip" Version="1.16.0" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>

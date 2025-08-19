@@ -1,0 +1,8 @@
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.csproj.AssemblyReference.cache
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.Properties.Resources.resources
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.Window.resources
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.csproj.GenerateResource.cache
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.AssemblyInfoInputs.cache
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.AssemblyInfo.cs
+C:\Users\PC\OneDrive\Área de Trabalho\open source tool\Huawei-Unlock-Tool-main\HuaweiUnlock\obj\Release\net48\HuaweiUnlock.csproj.CoreCompileInputs.cache
