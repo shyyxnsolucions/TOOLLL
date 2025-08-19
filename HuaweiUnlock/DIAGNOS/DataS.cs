@@ -8,6 +8,29 @@ namespace HuaweiUnlocker.DIAGNOS
         public const string MTK_firmwareupgrade = "firmware_upgrade";
         public const string MTK_formatallanddload = "fm_and_dl";
         public const string MTK_formatall = "fm";
+
+        public struct CMD_PKT
+        {
+            private byte[] _data;
+            public CMD_PKT(int size, params string[] parts)
+            {
+                string hex = string.Concat(parts ?? Array.Empty<string>());
+                _data = HexStringToBytes(hex);
+                if (size > 0 && _data.Length < size)
+                    Array.Resize(ref _data, size);
+            }
+            public byte[] GetBytes() => _data ?? Array.Empty<byte>();
+        }
+
+        private static byte[] HexStringToBytes(string hex)
+        {
+            if (string.IsNullOrEmpty(hex)) return Array.Empty<byte>();
+            int len = hex.Length / 2;
+            byte[] bytes = new byte[len];
+            for (int i = 0; i < len; i++)
+                bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+            return bytes;
+        }
         public struct GPT_Struct
         {
             public int StartAdress;

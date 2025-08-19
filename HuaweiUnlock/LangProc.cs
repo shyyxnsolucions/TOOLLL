@@ -1,63 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
+using HuaweiUnlocker.UI;
+using System;
 using System.Windows.Forms;
-using Witcher3_Multiplayer.ClientHost;
 
-namespace Witcher3_Multiplayer
+namespace HuaweiUnlocker
 {
-    public static class langproc
+    public static class LangProc
     {
-        public static TextBox LOGGERB;
-        public static bool IsHost = false,
-            Dedicated = false,
-            IsConnected = false,
-            TESTMYCLIENT = false,
-            debug = true;
-        public static double VersionCur = 1.0;
-        public static int SendDataDelay = 16;
-        public static Main MForm;
-        public static SimpleOverlayFORWINDOWEDMODE OverlForm;
-        public static string MonstersPath = "characters\\npc_entities\\monsters\\";//+MONSTERNAME
-        public static Dictionary<int, PlayerData> PlayerDataClient = new Dictionary<int, PlayerData>();
-        public static Dictionary<int, PlayerData> PlayerDataServerDATAS = new Dictionary<int, PlayerData>();
-        public static Dictionary<IPEndPoint, int> PlayerDataServer = new Dictionary<IPEndPoint, int>();
-        public static void LOG(string s)
+        public static bool debug = true;
+        public static TabControl Tab;
+        public static TextBox LOGGBOX;
+        public static NProgressBar PRG;
+
+        public static bool LOG(int type, string message = "", object extra = null)
         {
-            Action t = () => {
-                LOGGERB.Text += ("[INFO] " + s + Environment.NewLine);
-                LOGGERB.SelectionStart = LOGGERB.Text.Length;
-                LOGGERB.ScrollToCaret(); 
+            string prefix = type switch
+            {
+                1 => "[WARN] ",
+                2 => "[ERROR] ",
+                _ => "[INFO] "
             };
-            if (LOGGERB.InvokeRequired)
-                LOGGERB.Invoke(t);
-            else
-                t();
+            string text = prefix + message + (extra != null ? extra.ToString() : string.Empty);
+            if (LOGGBOX != null)
+            {
+                Action act = () =>
+                {
+                    LOGGBOX.AppendText(text + Environment.NewLine);
+                    LOGGBOX.SelectionStart = LOGGBOX.Text.Length;
+                    LOGGBOX.ScrollToCaret();
+                };
+                if (LOGGBOX.InvokeRequired) LOGGBOX.Invoke(act); else act();
+            }
+            return type == 0;
         }
-        public static void ELOG(string s)
+
+        public static void Progress(int value)
         {
-            Action t = () => { LOGGERB.Text += "[ERROR] " + s + Environment.NewLine; };
-            if (LOGGERB.InvokeRequired)
-                LOGGERB.Invoke(t);
-            else
-                t();
+            if (PRG == null) return;
+            Action act = () =>
+            {
+                value = Math.Max(PRG.ValueMinimum, Math.Min(value, PRG.ValueMaximum));
+                PRG.Value = value;
+            };
+            if (PRG.InvokeRequired) PRG.Invoke(act); else act();
         }
-        public static byte[] ToByteArray(this object structure)
+
+        public static void Progress(int value, int max)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, structure);
-            return ms.ToArray();
-        }
-        public static T ToStructure<T>(this byte[] arrBytes) where T : struct
-        {
-            MemoryStream memStream = new MemoryStream(arrBytes);
-            BinaryFormatter binForm = new BinaryFormatter();
-            memStream.Seek(0, SeekOrigin.Begin);
-            T obj = (T)binForm.Deserialize(memStream);
-            return obj;
+            if (PRG == null) return;
+            Action act = () =>
+            {
+                PRG.ValueMaximum = max;
+                value = Math.Max(PRG.ValueMinimum, Math.Min(value, PRG.ValueMaximum));
+                PRG.Value = value;
+            };
+            if (PRG.InvokeRequired) PRG.Invoke(act); else act();
         }
     }
 }

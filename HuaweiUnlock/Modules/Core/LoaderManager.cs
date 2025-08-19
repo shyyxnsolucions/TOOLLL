@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using System.Windows.Forms;
 
 namespace HuaweiUnlocker.Modules.Core
@@ -15,7 +15,7 @@ namespace HuaweiUnlocker.Modules.Core
         public static readonly string ManifestPath = Path.Combine(Root, "loaders.json");
 
         private static LoaderManifest _manifest = new LoaderManifest();
-        private static readonly JavaScriptSerializer _json = new JavaScriptSerializer();
+        private static readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 
         public static LoaderManifest Manifest => _manifest;
 
@@ -37,7 +37,7 @@ namespace HuaweiUnlocker.Modules.Core
                 if (File.Exists(ManifestPath))
                 {
                     var txt = File.ReadAllText(ManifestPath);
-                    _manifest = _json.Deserialize<LoaderManifest>(txt) ?? new LoaderManifest();
+                    _manifest = JsonConvert.DeserializeObject<LoaderManifest>(txt, _jsonSettings) ?? new LoaderManifest();
                 }
             }
             catch
@@ -49,7 +49,7 @@ namespace HuaweiUnlocker.Modules.Core
         public static void Save()
         {
             EnsureFolders();
-            var txt = _json.Serialize(_manifest);
+            var txt = JsonConvert.SerializeObject(_manifest, _jsonSettings);
             File.WriteAllText(ManifestPath, txt);
         }
 
